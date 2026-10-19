@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream> //para recibir texto
 #include <sstream> //para separar el texto
-//hay que incluir el h y compilar con el cpp... 
+
 #include "Paciente.h" // para compilar hay que poner las clases "g++ main.cpp Paciente.cpp -o main.exe" / "g++ *.cpp -o main, .\main.exe"
 #include "Servicios.h" //es exponencial, ahora hay que poner este en el compilar
 #include "NodoP.h"
