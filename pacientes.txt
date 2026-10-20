@@ -1,12 +1,12 @@
-001;Juan Perez;25;Cardiologia
-002;Maria Soto;67;Urgencias
-003;Pedro Rojas;43;Cirugia
-004;Ana Torres;12;Pediatria
-005;Luis Diaz;31;Traumatologia
-006;Sofia Morales;54;Neurologia
-007;Carlos Fuentes;72;Medicina General
-008;Camila Rojas;8;Pediatria
-009;Diego Vargas;36;Hospitalizacion
-010;Valentina Perez;29;Cardiologia
-011;Jorge Castillo;61;Urgencias
-012;Daniela Soto;47;Traumatologia
+001;Juan Perez;25;36.7;100;3;pecho;0;0;0;25
+002;Maria Soto;67;38.3;130;10;cabeza;0;0;0;60
+003;Pedro Rojas;43;38.1;120;9;abdomen;0;0;1;31
+004;Ana Torres;12;37.9;90;5;cabeza;0;0;0;1
+005;Luis Diaz;31;36.2;85;4;extremidad;1;0;0;20
+006;Sofia Morales;54;38.2;80;7;cabeza;0;1;0;30
+007;Carlos Fuentes;72;38.4;100;3;pecho;0;0;0;1
+008;Camila Rojas;8;37.9;100;4;cabeza;0;0;0;12
+009;Diego Vargas;36;36.8;100;3;extremidad;0;0;0;1
+010;Valentina Perez;29;38.1;135;3;cabeza;0;0;0;12
+011;Jorge Castillo;61;39.4;150;10;cabeza;1;0;0;30
+012;Daniela Soto;47;37.4;110;10;extremidad;1;0;0;20

@@ -8,15 +8,22 @@ private:
     string ID;
     string nombre;
     int edad;
-    string servicio;
+    double temp;
+    int pArterial;
+    int dolor;
+    string tDolor;
+    bool trauma;
+    bool sintNeuro;
+    bool cirugia;
+    int dias;
 public:
-    Paciente(string ID, string nombre, int edad, string servicio);
+    Paciente(string ID, string nombre, int edad, double temp,int pArterial, int dolor, string tDolor, bool trauma, bool sintNeuro, bool cirugia, int dias );
     ~Paciente();
     string getNombre(){
         return nombre;
     }
     string getServicio(){
-        return servicio;
+        return "errorTemp";
     }
     string getID(){
         return ID; 
