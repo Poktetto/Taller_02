@@ -242,8 +242,11 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
             break;
         }
 }
-void historialAtencion(){// metodo para ver el historial de atencion
-     cout << "=== HISTORIAL DE ÚLTIMAS ATENCIONES DEL HOSPITAL ===" << endl;
+void buscarPaciente(){// metodo para ver el historial de atencion
+     cout << "=== Buscar paciente ===" << endl;
+     int opcion;
+     cout << "Indique el ID o Nombre del paciente:";
+        cin >>opcion;
      
      
 }
@@ -352,7 +355,7 @@ int main(){
             verDepartamento();
             break;
         case 3:
-            historialAtencion();
+            buscarPaciente();
             break;
 
         case 4:
