@@ -5,6 +5,7 @@ using namespace std;
 class Paciente{
 private:
 //se almacena la ID como string para que almacene los 0 del inicio
+//Hay chance que el ordenamiento por id creo
     string ID;
     string nombre;
     int edad;

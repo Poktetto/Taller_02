@@ -10,7 +10,7 @@ using namespace std;
 
 NodoP* pacientesHead=nullptr; //Cabezera de los pacientes a atender
 Servicios* serviciosHead=nullptr; //cabezera de los servicios
-
+NodoP* historialHead = nullptr;
 
 
 
@@ -242,11 +242,8 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
             break;
         }
 }
-void buscarPaciente(){// metodo para ver el historial de atencion
-     cout << "=== Buscar paciente ===" << endl;
-     int opcion;
-     cout << "Indique el ID o Nombre del paciente:";
-        cin >>opcion;
+void historialAtencion(){// metodo para ver el historial de atencion
+     cout << "=== HISTORIAL DE ÚLTIMAS ATENCIONES DEL HOSPITAL ===" << endl;
      
      
 }
@@ -355,7 +352,7 @@ int main(){
             verDepartamento();
             break;
         case 3:
-            buscarPaciente();
+            historialAtencion();
             break;
 
         case 4:
