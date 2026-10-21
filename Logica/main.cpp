@@ -10,7 +10,7 @@ using namespace std;
 
 NodoP* pacientesHead=nullptr; //Cabezera de los pacientes a atender
 Servicios* serviciosHead=nullptr; //cabezera de los servicios
-NodoP* historialHead=nullptr;//  cabecera del historial
+
 
 
 
@@ -70,9 +70,7 @@ void atenderPacientes(){ //metodo para atender pacientes
        
         pacientesHead = pacientesHead->getNext();
         pacienteActual->setNext(nullptr); 
-        NodoP* historialTemporal=new NodoP(pacienteActual->getPaciente());// se crea de esta forma evita que que colapse el programa
-        historialTemporal->setNext(historialHead);//hace el guardado en formato LIFO 
-        historialHead= historialTemporal;//la cabecera va abajo y el temporal arriba
+       
 
         //Posicionar paciente actual en el servicio, luego borrar de la lista de pacientes en espera (pacientesHead)
         Servicios* servicioActual = serviciosHead; 
@@ -134,10 +132,7 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
             }
         
 
-           /* while (servicioActual->getNodoP()!=nullptr){
-                cout << servicioActual->getNodoP()->getPaciente().getNombre() << " ("<<servicioActual->getNodoP()->getPaciente().getEdad()<<") "<< endl;
-                servicioActual->setNodoP(servicioActual->getNodoP()->getNext());
-            }*/
+          
             
             break;
         case 2:
@@ -249,17 +244,7 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
 }
 void historialAtencion(){// metodo para ver el historial de atencion
      cout << "=== HISTORIAL DE ÚLTIMAS ATENCIONES DEL HOSPITAL ===" << endl;
-     if (historialHead==nullptr){
-        cout<<"No hay pacientes registrados."<< endl;
-        return;
-     }
-
-     NodoP* historialActual=historialHead;
-     while (historialActual!=nullptr)//imprime la lista
-     {
-        cout<<"Nombre: "<<historialActual->getPaciente().getNombre()<<" | Edad: "<<historialActual->getPaciente().getEdad()<<" | Departamento: "<<historialActual->getPaciente().getServicio()<<endl;
-        historialActual=historialActual->getNext();
-     }
+     
      
 }
 
@@ -312,7 +297,7 @@ int main(){
     }
 
     //creacion de departamentos
-    //supongo que solo son los 8 departamentos
+ 
     NodoP* urgencias(nullptr);
     serviciosHead =new Servicios("Urgencias", urgencias);
 
@@ -344,9 +329,7 @@ int main(){
     Servicios* servicioHospital=new Servicios("Hospitalizacion", hospital);
     servicioPed->setNext(servicioHospital); 
 
-    //siento que debe haber una mejor manera... 
-    //esto crea una lista de nodos de servicio?
-    //si
+   
 
 
     //menu

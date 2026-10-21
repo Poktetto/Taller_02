@@ -23,6 +23,33 @@ public:
         return nombre;
     }
     string getServicio(){
+        if (this->cirugia){
+            return "Cirugia";
+        }
+        if (this->dolor>7 || this->temp>39.0){
+              return   "Urgencias";
+            }
+         if (this->edad<16){
+           return "Pediatria";
+          } 
+        if (this->sintNeuro){
+            return "Neurologia";
+         }
+
+        if (this->trauma){
+            return "Traumatologia";
+        }
+        if (this->pArterial>120 && this->tDolor==""){
+            return "Cardiologia";
+        }
+        if (this->dias>1){
+           
+            return "Hospitalizacion";
+        }else{
+            return "Medicina General";
+        }
+        // esto es el arbol de decisiones
+        
         return "errorTemp";
     }
     string getID(){
