@@ -3,14 +3,16 @@
 #include <fstream> //para recibir texto
 #include <sstream> //para separar el texto
 //hay que incluir el h y compilar con el cpp... 
-#include "..\Dominio\Paciente.h" // para compilar hay que poner las clases "g++ main.cpp Paciente.cpp -o main.exe" / "g++ *.cpp -o main, .\main.exe"
+#include "..\Dominio\Paciente.h" // para compilar hay que poner las clases "g++ Logica\main.cpp -Include Dominio\NodoP.cpp Dominio\Paciente.cpp Dominio\Servicios.cpp Dominio\NodoAVL Dominio\ArbolAVL -o main.exe"
 #include "..\Dominio\Servicios.h" //es exponencial, ahora hay que poner este en el compilar
 #include "..\Dominio\NodoP.h"
+#include "..\Dominio\ArbolAVL.h" 
+#include "..\Dominio\NodoAVL.h"
 using namespace std;
 
 NodoP* pacientesHead=nullptr; //Cabezera de los pacientes a atender
 Servicios* serviciosHead=nullptr; //cabezera de los servicios
-NodoP* historialHead = nullptr;
+
 
 
 
@@ -81,8 +83,13 @@ void atenderPacientes(){ //metodo para atender pacientes
 
                 //print
                 cout<<"Paciente enviado a "<<pacienteActual->getPaciente().getServicio()<<endl;
+                Paciente paciente = pacienteActual->getPaciente();
+        
+       
+                servicioActual->getArbolP().aniadirNodo(new NodoAVL(paciente));
                 if (servicioActual->getNodoP()==nullptr){
-                    servicioActual->setNodoP(pacienteActual);  
+                    servicioActual->setNodoP(pacienteActual);
+
                 } else {
                     NodoP* ultimoServicio = servicioActual->getNodoP();
                     while (ultimoServicio->getNext() != nullptr) {
@@ -242,8 +249,12 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
             break;
         }
 }
-void historialAtencion(){// metodo para ver el historial de atencion
-     cout << "=== HISTORIAL DE ÚLTIMAS ATENCIONES DEL HOSPITAL ===" << endl;
+void buscarPaciente(){// metodo para ver el historial de atencion
+     cout << "=== BUSCAR PACIENTE ===" << endl;
+     string opcion;
+     cout << "Indique el ID o Nombre del paciente: ";
+        cin >>opcion;
+
      
      
 }
@@ -352,12 +363,12 @@ int main(){
             verDepartamento();
             break;
         case 3:
-            historialAtencion();
+            buscarPaciente();
             break;
 
         case 4:
             limpiarLista(pacientesHead);
-            limpiarLista(historialHead);
+       
             limpiarServicio(serviciosHead);
             break;
             

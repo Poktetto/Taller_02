@@ -3,8 +3,7 @@
 #include <string>
 
 using namespace std; 
-//hacemos herencia o no? Porque no creo que sea necesario crear 8 clases para cada arbol
-//pienso que con una deberiamos estar bien y que sea como "Servicios", de todas formas se puede cambiar si es necesario
+
 
 class NodoAVL{// nodo para el Arbol balanciado
 private:

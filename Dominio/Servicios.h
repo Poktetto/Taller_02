@@ -1,5 +1,7 @@
 #pragma once
 #include "NodoP.h"
+#include "NodoAVL.h"
+#include "ArbolAVL.h"
 # include <string>
 using namespace std;
 
@@ -8,6 +10,7 @@ private:
     string nombre; //despues hay que cambiarlo por el Stack correspondiente
     Servicios* next;
     NodoP* cabezera; 
+    ArbolAVL arbolAVLPacientes; //cada servicio tiene su AVL
 public:
     Servicios(string nombre, NodoP* cabezera);
     void setNext(Servicios* next){
@@ -36,5 +39,8 @@ public:
         
         return size;
     }
+    ArbolAVL& getArbolP() { 
+        return arbolAVLPacientes;
+     } 
     ~Servicios();
 };
