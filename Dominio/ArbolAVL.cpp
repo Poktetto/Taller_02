@@ -2,8 +2,7 @@
 #include <string>
 using namespace std; 
 
-ArbolAVL::ArbolAVL(string tipo){
-    this->tipo = tipo;
+ArbolAVL::ArbolAVL(){
     this->raiz = nullptr;
     this->siguiente = nullptr;
 

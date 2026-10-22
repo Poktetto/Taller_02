@@ -10,9 +10,9 @@ private:
     string nombre; //despues hay que cambiarlo por el Stack correspondiente
     Servicios* next;
     NodoP* cabezera; 
-    ArbolAVL arbolAVLPacientes; //cada servicio tiene su AVL
+    ArbolAVL* arbolAVLPacientes; //cada servicio tiene su AVL
 public:
-    Servicios(string nombre, NodoP* cabezera);
+    Servicios(string nombre, NodoP* cabezera, ArbolAVL* arbolAVLPacientes);
     void setNext(Servicios* next){
         this->next = next;
     }
@@ -39,7 +39,7 @@ public:
         
         return size;
     }
-    ArbolAVL& getArbolP() { 
+    ArbolAVL* getArbolP() { 
         return arbolAVLPacientes;
      } 
     ~Servicios();

@@ -3,7 +3,7 @@
 #include <fstream> //para recibir texto
 #include <sstream> //para separar el texto
 //hay que incluir el h y compilar con el cpp... 
-#include "..\Dominio\Paciente.h" // para compilar hay que poner las clases "g++ Logica\main.cpp -Include Dominio\NodoP.cpp Dominio\Paciente.cpp Dominio\Servicios.cpp Dominio\NodoAVL Dominio\ArbolAVL -o main.exe"
+#include "..\Dominio\Paciente.h" // para compilar hay que poner las clases "g++ Logica\main.cpp -Include Dominio\NodoP.cpp Dominio\Paciente.cpp Dominio\Servicios.cpp Dominio\ArbolAVL.cpp Dominio\NodoAVL.cpp -o main.exe"
 #include "..\Dominio\Servicios.h" //es exponencial, ahora hay que poner este en el compilar
 #include "..\Dominio\NodoP.h"
 #include "..\Dominio\ArbolAVL.h" 
@@ -36,7 +36,48 @@ void limpiarServicio(Servicios* serviciosAct){
     serviciosAct = nullptr;
 }
 
-
+void calcularRuta(Paciente pacienteActual){//calcular la ruta, usado en "Atender Pacientes"
+    while (true){ //para detenerse una vez llegado al deseado 
+        cout<< "ruta: ";
+        if (pacienteActual.getCirugia()){
+            cout<< "Cirugía == 1 "<< endl; 
+            break;
+        }
+        cout<< "Cirugía == 0 -> ";
+        if(pacienteActual.getDolor()>7|| pacienteActual.getTemp()>39.0){
+            cout<< "Dolor > 7 o Temperatura > 39° "<<endl;
+            break;
+        }
+        cout<< "Dolor < 7 o Temperatura < 39° -> ";
+        if (pacienteActual.getEdad()<16){
+            cout<< "Edad < 16 años "<<endl;
+            break; 
+        }
+        cout<< "Edad > 16 años -> ";
+        if (pacienteActual.getNeuro()){
+            cout<< "Sintomas Neurologicos == 1 "<< endl;
+            break;
+        }
+        cout<< "Sintomas Neurologicos == 0 ->";
+        if (pacienteActual.getTrauma()){
+            cout<< "Trauma == 1 "<< endl;
+            break;
+        }
+        cout<< "Trauma == 0 ->";
+        if (pacienteActual.getPArterial()>120 && pacienteActual.getTDolor()=="pecho"){
+            cout<< "Presion Arterial > 120 y Tipo de dolor == pecho"<<endl;
+            break;
+        }
+        cout << "Presion Arterial < 120 y Tipo de dolor != pecho ->";
+        if (pacienteActual.getDias()>1){
+            cout<< "Dias esperados en hospitalización > 1 "<<endl;
+            break;
+        }
+        cout<< "Dias esperados en hospitalización < 1 "<<endl;
+        break;
+    };
+ 
+}
 void atenderPacientes(){ //metodo para atender pacientes
     cout << endl;
     int cantidad=0;
@@ -62,13 +103,23 @@ void atenderPacientes(){ //metodo para atender pacientes
             break;
         }
         pacienteActual = pacientesHead; // esto tiene que ir aqui  para que no imprima los pacientes ya atendidos
+        int temporal =0;
+        
         cout<< "=== ATENDIENDO PACIENTES ==="<<endl;
         cout<< "ID: "<<pacienteActual->getPaciente().getID()<<endl;
         cout<< "Nombre: " <<pacienteActual->getPaciente().getNombre()<<endl;
         cout<< "Edad: "<<pacienteActual->getPaciente().getEdad()<<endl;
-        cout<< "Servicio: " <<pacienteActual->getPaciente().getServicio()<<endl;
+        cout<< "Temperatura: "<<pacienteActual->getPaciente().getTemp()<<endl;
+        cout<< "Presion Arterial: "<<pacienteActual->getPaciente().getPArterial()<<endl;
+        cout<< "Tipo de Dolor: "<<pacienteActual->getPaciente().getDolor()<<endl;
+        if (pacienteActual->getPaciente().getTrauma()){temporal=1;}else {temporal=0;};
+        cout<< "Trauma: "<<temporal<<endl; 
+        if (pacienteActual->getPaciente().getNeuro()){temporal=1;}else {temporal=0;};
+        cout<< "Sintomas Neurologicos: "<<temporal<<endl; 
+        if (pacienteActual->getPaciente().getCirugia()){temporal=1;}else {temporal=0;};
+        cout<< "Cirugia: "<<temporal<<endl;
+        cout<< "Cantidad de dias estimados: " << pacienteActual->getPaciente().getDias()<<endl;
         cout<<endl;
-        
        
         pacientesHead = pacientesHead->getNext();
         pacienteActual->setNext(nullptr); 
@@ -80,23 +131,28 @@ void atenderPacientes(){ //metodo para atender pacientes
 
             if (pacienteActual->getPaciente().getServicio()==servicioActual->getNombre()){
                 //se cumple cuando coinciden los nombres de los Servicios
-
+                
+                //funcion que imprime la ruta que tomo el paciente
+                calcularRuta(pacienteActual->getPaciente());
+                cout<<endl;
                 //print
                 cout<<"Paciente enviado a "<<pacienteActual->getPaciente().getServicio()<<endl;
                 Paciente paciente = pacienteActual->getPaciente();
         
        
-                servicioActual->getArbolP().aniadirNodo(new NodoAVL(paciente));
+                servicioActual->getArbolP()->aniadirNodo(new NodoAVL(paciente));
+                cout<<"Paciente insertado en el AVL de "<<paciente.getServicio()<<endl;
+                
                 if (servicioActual->getNodoP()==nullptr){
                     servicioActual->setNodoP(pacienteActual);
-
+                    
                 } else {
                     NodoP* ultimoServicio = servicioActual->getNodoP();
                     while (ultimoServicio->getNext() != nullptr) {
                         ultimoServicio = ultimoServicio->getNext();
                     }
                     ultimoServicio->setNext(pacienteActual);
-
+                    
                 } break; //permite "eliminarlo" de la lista sin tener que borrarlo de la memoria para utilizar en los servicios
                 
            
@@ -110,144 +166,146 @@ void atenderPacientes(){ //metodo para atender pacientes
      
 }
 void verDepartamento(){//metodo para ver los departamentos/servicio
-    int opcion = 0;
-     cout << "=== DEPARTAMENTOS/SERVICIOS ===" << endl;// texto menu
-        cout << "1. Urgencias" << endl;
-        cout << "2. Medicina General" << endl;
-        cout << "3. Cardiología" << endl;
-        cout << "4. Neurología" << endl;
-        cout << "5. Traumatología" << endl;
-        cout << "6. Cirugía" << endl;
-        cout << "7. Pediatría" << endl;
-        cout << "8. Hospitalización" << endl;
-        cout << "seleccione opcion: ";
-        cin >>opcion;
-        
-        Servicios* servicioActual = serviciosHead; 
-        NodoP* pacienteActual = nullptr;
-        switch (opcion){ 
-        case 1:
-             servicioActual = serviciosHead;// esto permite que se reinicie en cada opcion para que no se pierda las demas listas
-            cout<<endl;
-            cout<<"=== ESTADO URGENCIAS ==="<<endl;
-            cout<<"pacientes en el departamento de urgencias: "<<servicioActual->getSizeNodoP()<<endl;
-           
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-        
 
-          
-            
-            break;
-        case 2:
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO MEDICINA GENERAL ==="<<endl;
-            cout<<"pacientes en el departamento de medicina general: "<<servicioActual->getSizeNodoP()<<endl;
-           
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            
-            break;
+    //hay que recorrer el AVL para esto?
+    cout << "=== ESTADO DE LOS DEPARTAMENTOS ===" << endl;
+    Servicios* servicioActual = serviciosHead; 
+    NodoP* pacienteActual = nullptr;
 
-        case 3:
-        //al final lo unico que cambia es el getNext y el texto
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext()->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO CARDIOLOGÍA ==="<<endl;
-            cout<<"pacientes en el departamento de cardiología: "<<servicioActual->getSizeNodoP()<<endl;
-           
 
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            break;
-        case 4:
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext()->getNext()->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO NEUROLOGÍA ==="<<endl;
-            cout<<"pacientes en el departamento de neurología: "<<servicioActual->getSizeNodoP()<<endl;
-           
+    servicioActual = serviciosHead;// esto permite que se reinicie en cada opcion para que no se pierda las demas listas
+    cout<<endl;
+    cout<<"ESTADO URGENCIAS: "<<endl;
+    if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+         cout<<"pacientes en el departamento de urgencias: "<<servicioActual->getSizeNodoP()<<endl;
+    }
+   
 
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            break;
-        case 5:
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO TRAUMATOLOGÍA ==="<<endl;
-            cout<<"pacientes en el departamento de traumatología: "<<servicioActual->getSizeNodoP()<<endl;
-           
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
 
-           pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            break;
-        case 6:
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext()->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO CIRUGÍA ==="<<endl;
-            cout<<"pacientes en el departamento de cirugía: "<<servicioActual->getSizeNodoP()<<endl;
-           
 
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            break;
-        case 7:
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext()->getNext()->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO PEDIATRÍA ==="<<endl;
-            cout<<"pacientes en el departamento de pediatría: "<<servicioActual->getSizeNodoP()<<endl;
-           
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext();
+    cout<<endl;
+    cout<<"ESTADO MEDICINA GENERAL: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de medicina general: "<<servicioActual->getSizeNodoP()<<endl;
+    }   
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
 
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            break;
-        case 8:
-            servicioActual = serviciosHead;
-            servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext()->getNext()->getNext()->getNext();
-            cout<<endl;
-            cout<<"=== ESTADO HOSPITALIZACIÓN ==="<<endl;
-            cout<<"pacientes en el departamento de hospitalización: "<<servicioActual->getSizeNodoP()<<endl;
-           
 
-            pacienteActual= servicioActual->getNodoP();
-            while (pacienteActual!=nullptr){
-                cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
-               pacienteActual= pacienteActual-> getNext();
-            }
-            break;
-        
-        default:
-            cout <<   "opcion no valida"<< endl;
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext()->getNext();
+    cout<<endl;
+    cout<<"ESTADO CARDIOLOGÍA: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de cardiología: "<<servicioActual->getSizeNodoP()<<endl;
+    }     
 
-            break;
-        }
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
+
+
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext()->getNext()->getNext();
+    cout<<endl;
+    cout<<"ESTADO NEUROLOGÍA: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de neurología: "<<servicioActual->getSizeNodoP()<<endl;
+    }
+
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
+
+
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext();
+    cout<<endl;
+    cout<<"ESTADO TRAUMATOLOGÍA: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de traumatología: "<<servicioActual->getSizeNodoP()<<endl;
+    }      
+
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
+
+
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext()->getNext();
+    cout<<endl;
+    cout<<"ESTADO CIRUGÍA: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de cirugía: "<<servicioActual->getSizeNodoP()<<endl;
+    }      
+
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
+
+
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext()->getNext()->getNext();
+    cout<<endl;
+    cout<<"ESTADO PEDIATRÍA: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de pediatría: "<<servicioActual->getSizeNodoP()<<endl;
+    }
+
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
+
+    servicioActual = serviciosHead;
+    servicioActual = servicioActual->getNext()->getNext()->getNext()->getNext()->getNext()->getNext()->getNext();
+    cout<<endl;
+    cout<<"ESTADO HOSPITALIZACIÓN: "<<endl;
+       if (servicioActual->getSizeNodoP()==0){
+        cout<<"Sin pacientes"<< endl;
+    } else {
+    cout<<"pacientes en el departamento de hospitalización: "<<servicioActual->getSizeNodoP()<<endl;
+    }       
+
+    pacienteActual= servicioActual->getNodoP();
+    while (pacienteActual!=nullptr){
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        pacienteActual= pacienteActual-> getNext();
+    }
+ 
 }
 void buscarPaciente(){// metodo para ver el historial de atencion
      cout << "=== BUSCAR PACIENTE ===" << endl;
@@ -310,34 +368,34 @@ int main(){
     //creacion de departamentos
  
     NodoP* urgencias(nullptr);
-    serviciosHead =new Servicios("Urgencias", urgencias);
+    serviciosHead =new Servicios("Urgencias", urgencias, new ArbolAVL());
 
     NodoP* medicinaGeneral(nullptr);
-    Servicios* servicioMedGen=new Servicios("Medicina General", medicinaGeneral);
+    Servicios* servicioMedGen=new Servicios("Medicina General", medicinaGeneral, new ArbolAVL());
     serviciosHead->setNext(servicioMedGen); 
 
     NodoP* cardiologia(nullptr);
-    Servicios* servicioCardio=new Servicios("Cardiologia", cardiologia);
+    Servicios* servicioCardio=new Servicios("Cardiologia", cardiologia, new ArbolAVL());
     servicioMedGen->setNext(servicioCardio);
 
     NodoP* neulogia(nullptr);
-    Servicios* servicioNeuro=new Servicios("Neurologia", neulogia);
+    Servicios* servicioNeuro=new Servicios("Neurologia", neulogia, new ArbolAVL());
     servicioCardio->setNext(servicioNeuro);
 
     NodoP* traumatologia(nullptr);
-    Servicios* servicioTrauma=new Servicios("Traumatologia", traumatologia);
+    Servicios* servicioTrauma=new Servicios("Traumatologia", traumatologia, new ArbolAVL());
     servicioNeuro->setNext(servicioTrauma);
 
     NodoP* cirugia(nullptr);
-    Servicios* servicioCirugia=new Servicios("Cirugia", cirugia);
+    Servicios* servicioCirugia=new Servicios("Cirugia", cirugia, new ArbolAVL());
     servicioTrauma->setNext(servicioCirugia);
 
     NodoP* pediatria(nullptr);
-    Servicios* servicioPed=new Servicios("Pediatria", pediatria);
+    Servicios* servicioPed=new Servicios("Pediatria", pediatria, new ArbolAVL());
     servicioCirugia->setNext(servicioPed);
 
     NodoP* hospital(nullptr);
-    Servicios* servicioHospital=new Servicios("Hospitalizacion", hospital);
+    Servicios* servicioHospital=new Servicios("Hospitalizacion", hospital, new ArbolAVL());
     servicioPed->setNext(servicioHospital); 
 
    
@@ -349,7 +407,7 @@ int main(){
     {
         cout << "=== HOSPITAL MARMAJA ===" << endl;// texto menu
         cout << "1. Atender pacientes" << endl;
-        cout << "2. Ver departamento" << endl;
+        cout << "2. Ver departamentos" << endl;
         cout << "3. Revisar historial de atención" << endl;
         cout << "4. Salir" << endl;
         cout << "seleccione opcion: ";

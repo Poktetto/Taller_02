@@ -40,7 +40,7 @@ public:
         if (this->trauma){
             return "Traumatologia";
         }
-        if (this->pArterial>120 && this->tDolor==""){
+        if (this->pArterial>120 && this->tDolor=="pecho"){
             return "Cardiologia";
         }
         if (this->dias>1){
@@ -59,7 +59,30 @@ public:
     int getEdad(){
         return edad;
     }
-    
+    double getTemp(){
+        return temp;
+    }
+    int getPArterial(){
+        return pArterial;
+    }
+    int getDolor(){
+        return dolor;
+    }
+    string getTDolor(){
+        return tDolor;
+    }
+    bool getTrauma(){
+        return trauma;
+    }
+    bool getCirugia(){
+        return cirugia;
+    }
+    bool getNeuro(){
+        return sintNeuro;
+    }
+    int getDias(){
+        return dias;
+    }
     
 
 };
