@@ -3,7 +3,7 @@
 #include <fstream> //para recibir texto
 #include <sstream> //para separar el texto
 //hay que incluir el h y compilar con el cpp... 
-#include "..\Dominio\Paciente.h" // para compilar hay que poner las clases "g++ Logica\main.cpp -Include Dominio\NodoP.cpp Dominio\Paciente.cpp Dominio\Servicios.cpp Dominio\ArbolAVL.cpp Dominio\NodoAVL.cpp -o main.exe"
+#include "..\Dominio\Paciente.h" // para compilar hay que poner las clases "g++ Logica\main.cpp -Include Dominio\NodoP.cpp Dominio\Paciente.cpp Dominio\Servicios.cpp Dominio\ArbolAVL.cpp Dominio\NodoAVL.cpp -o main.exe"".\main.exe "
 #include "..\Dominio\Servicios.h" //es exponencial, ahora hay que poner este en el compilar
 #include "..\Dominio\NodoP.h"
 #include "..\Dominio\ArbolAVL.h" 
@@ -302,7 +302,7 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
 
     pacienteActual= servicioActual->getNodoP();
     while (pacienteActual!=nullptr){
-        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getEdad()<<") "<< endl;
+        cout <<  pacienteActual->getPaciente().getNombre() << " ("<< pacienteActual->getPaciente().getID()<<") "<< endl;
         pacienteActual= pacienteActual-> getNext();
     }
  
@@ -312,6 +312,22 @@ void buscarPaciente(){// metodo para ver el historial de atencion
      string opcion;
      cout << "Indique el ID o Nombre del paciente: ";
         cin >>opcion;
+
+        
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
 
      
      
