@@ -167,7 +167,7 @@ void atenderPacientes(){ //metodo para atender pacientes
 }
 void verDepartamento(){//metodo para ver los departamentos/servicio
 
-    //hay que recorrer el AVL para esto?
+    //hay que recorrer el AVL para esto? deberia ser, no especifica
     cout << "=== ESTADO DE LOS DEPARTAMENTOS ===" << endl;
     Servicios* servicioActual = serviciosHead; 
     NodoP* pacienteActual = nullptr;
@@ -307,30 +307,46 @@ void verDepartamento(){//metodo para ver los departamentos/servicio
     }
  
 }
-void buscarPaciente(){// metodo para ver el historial de atencion
+
+
+
+void buscarPaciente(){// metodo para buscar paciente
      cout << "=== BUSCAR PACIENTE ===" << endl;
      string opcion;
      cout << "Indique el ID o Nombre del paciente: ";
         cin >>opcion;
 
+
+    
+     cout << "Buscando en AVL..."<< endl;
+    
+    NodoAVL* pacienteB = serviciosHead->buscarPacienteS(opcion);
+
+    if (pacienteB!= nullptr){
         
+         cout << "Paciente encontrado:"<<endl;
+         cout<< "ID: "<<pacienteB->getPaciente().getID()<<endl;
+        cout<< "Nombre: " <<pacienteB->getPaciente().getNombre()<<endl;
+        cout<< "Edad: "<<pacienteB->getPaciente().getEdad()<<endl;
+        cout<< "Departamento: "<<pacienteB->getPaciente().getServicio()<<endl;
+        cout<< "T: "<<pacienteB->getPaciente().getTemp()<<"° ";
+        cout<< "| P A: "<<pacienteB->getPaciente().getPArterial() ;
+        cout<< " | Tipo de Dolor: "<<pacienteB->getPaciente().getDolor();
+        cout<< " | T: "; 
+        if (pacienteB->getPaciente().getTrauma()){cout<< " Si";}else {cout<< " No";};
+        cout<< " | SN: "; 
+        if (pacienteB->getPaciente().getNeuro()){cout<< " Si";}else {cout<< " No";};
+         cout<< " | RC: ";
+        if (pacienteB->getPaciente().getCirugia()){cout<< " Si";}else {cout<< " No";};
+       
+        cout<< " | DH:" << pacienteB->getPaciente().getDias()<<endl; // nose a que se refiere ninguno
+        cout<<endl;
 
+    }else{
+        cout << "Paciente no encontrado:";
+    }
 
-
-
-
-
-
-
-
-
-
-      
-
-
-
-     
-     
+  
 }
 
 
@@ -424,7 +440,7 @@ int main(){
         cout << "=== HOSPITAL MARMAJA ===" << endl;// texto menu
         cout << "1. Atender pacientes" << endl;
         cout << "2. Ver departamentos" << endl;
-        cout << "3. Revisar historial de atención" << endl;
+        cout << "3. Buscar Paciente" << endl;
         cout << "4. Salir" << endl;
         cout << "seleccione opcion: ";
         cin >>opcion;

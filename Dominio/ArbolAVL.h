@@ -27,5 +27,13 @@ public:
     ArbolAVL* getNext(){ //siguiente servicio 
         return siguiente;
     }
+    NodoAVL* buscarPacienteArbol(string idNombre){
+        if (raiz==nullptr)
+        {
+            return nullptr;
+        }
+        return raiz->buscarIDNombre(idNombre);
+        
+    }
     ~ArbolAVL();
 };

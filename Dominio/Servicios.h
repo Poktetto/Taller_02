@@ -42,5 +42,22 @@ public:
     ArbolAVL* getArbolP() { 
         return arbolAVLPacientes;
      } 
+
+    NodoAVL* buscarPacienteS(string idNombre) {
+   
+        if (arbolAVLPacientes != nullptr && arbolAVLPacientes->getRaiz() != nullptr) {
+            NodoAVL* encontrado = arbolAVLPacientes->getRaiz()->buscarIDNombre(idNombre);
+            if (encontrado != nullptr) {
+                return encontrado; 
+             }
+        }
+        if (next != nullptr) {
+            return next->buscarPacienteS(idNombre);
+        }
+
+    
+        return nullptr;
+    }
+
     ~Servicios();
 };

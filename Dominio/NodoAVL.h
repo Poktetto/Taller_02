@@ -99,6 +99,53 @@ public:
         }
         return balancear();
     }
+
+    NodoAVL* buscarIDNombre(string idNombre) { //para buscar el paciente
+    
+    if (paciente.getID() == idNombre || paciente.getNombre()== idNombre) {
+        return this;
+    }
+     
+    //aqui busca por hijo derecho e izquierdo
+
+    if (idNombre< paciente.getID()){
+         if (hijoIzq != nullptr) { 
+        NodoAVL* pacienteIzq= hijoIzq-> buscarIDNombre(idNombre);
+        if (pacienteIzq != nullptr){
+            return pacienteIzq;
+            }
+         }
+
+    }else{
+        if (hijoDer != nullptr) { 
+        NodoAVL* pacienteDer= hijoDer-> buscarIDNombre(idNombre);
+        if (pacienteDer != nullptr){
+            return pacienteDer;
+        }
+    }
+
+    }
+    // aqui busca por nombre
+    if (idNombre< paciente.getID()&& hijoIzq!=nullptr){
+        
+        NodoAVL* pacienteIzq= hijoIzq-> buscarIDNombre(idNombre);
+        if (pacienteIzq != nullptr){
+            return pacienteIzq;
+            }
+         
+        }
+    
+        if (idNombre< paciente.getID()&& hijoDer != nullptr) { 
+        NodoAVL* pacienteDer= hijoDer-> buscarIDNombre(idNombre);
+        if (pacienteDer != nullptr){
+            return pacienteDer;
+        }
+    }
+
+    
+    
+         return nullptr;
+    }
    
  
 
